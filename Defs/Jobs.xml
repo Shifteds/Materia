@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Jobs>
+
+  <JobDef>
+    <defName>LearnRecipe</defName>
+    <driverClass>JobDriver_UseItem</driverClass>
+    <reportString>Learning recipe.</reportString>
+  </JobDef>
+
+</Jobs>

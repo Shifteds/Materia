@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materia", "Materia\Materia.csproj", "{4EDD5A28-9A11-46CA-973D-5E528429F451}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materia", "Materia\Materia.csproj", "{D0B0DEB3-F228-4919-BA5C-1B9943DAD350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4EDD5A28-9A11-46CA-973D-5E528429F451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EDD5A28-9A11-46CA-973D-5E528429F451}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EDD5A28-9A11-46CA-973D-5E528429F451}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EDD5A28-9A11-46CA-973D-5E528429F451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B0DEB3-F228-4919-BA5C-1B9943DAD350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B0DEB3-F228-4919-BA5C-1B9943DAD350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B0DEB3-F228-4919-BA5C-1B9943DAD350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B0DEB3-F228-4919-BA5C-1B9943DAD350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

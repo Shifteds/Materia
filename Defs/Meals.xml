@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ThingDefs>
+
+  <ThingDef Name="MateriaMealBase" Abstract="True">
+    <label>base meal</label>
+    <description>A base meal.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <graphicData>
+      <texPath>Things/Item/Meal/Simple</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+			<Beauty>-6</Beauty>
+			<Mass>0.44</Mass>
+      <DeteriorationRate>20</DeteriorationRate>
+      <MarketValue>25</MarketValue>
+      <WorkToMake>300</WorkToMake>
+		</statBases>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>10</stackLimit>
+    <tickerType>Rare</tickerType>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <thingCategories>
+      <li>FoodMeals</li>
+    </thingCategories>
+    <alwaysHaulable>true</alwaysHaulable>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Ingredients" />
+      <li Class="CompProperties_FoodPoisonable" />
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>4</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+    <pathCost>15</pathCost>
+    <resourceReadoutPriority>Last</resourceReadoutPriority>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <ingestible>
+      <foodType>Meal</foodType>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <optimalityOffset>16</optimalityOffset>
+      <preferability>MealSimple</preferability>
+			<nutrition>0.50</nutrition>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal1M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal2M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal3M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal4M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal5M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal6M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal7M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal8M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal9M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal10M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal11M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal12M</defName>
+  </ThingDef>
+
+</ThingDefs>

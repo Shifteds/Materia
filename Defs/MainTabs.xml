@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<MainTabDefs>
+
+  <MainTabDef>
+    <defName>MateriaTab</defName>
+    <label>materia</label>
+    <description>Choose cooking recipes.</description>
+    <windowClass>Materia.UI.MateriaTabWindow</windowClass>
+    <order>11</order>
+  </MainTabDef>
+
+</MainTabDefs>

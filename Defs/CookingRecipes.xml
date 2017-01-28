@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RecipeDefs>
+  
+  <RecipeDef Name="MateriaBaseCookingRecipe">
+    <defName>MateriaBaseCookingRecipe</defName>
+    <label>cook materia meal</label>
+    <description>Cooks a materia meal.</description>
+    <jobString>Cooking materia meal.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>FoodRaw</li>
+      </categories>
+      <disallowedSpecialFilters>
+        <li>AllowPlantFood</li>
+      </disallowedSpecialFilters>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>FoodRaw</li>
+      </categories>
+    </defaultIngredientFilter>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaMeatRecipe</defName>
+    <ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>MeatRaw</li>
+          </categories>
+				</filter>
+        <count>1</count>
+			</li>
+		</ingredients>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking1M</defName>
+    <products>
+			<MateriaMeal1M>1</MateriaMeal1M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking2M</defName>
+    <products>
+			<MateriaMeal2M>1</MateriaMeal2M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking3M</defName>
+    <products>
+			<MateriaMeal3M>1</MateriaMeal3M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking4M</defName>
+    <products>
+			<MateriaMeal4M>1</MateriaMeal4M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking5M</defName>
+    <products>
+			<MateriaMeal5M>1</MateriaMeal5M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking6M</defName>
+    <products>
+			<MateriaMeal6M>1</MateriaMeal6M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking7M</defName>
+    <products>
+			<MateriaMeal7M>1</MateriaMeal7M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking8M</defName>
+    <products>
+			<MateriaMeal8M>1</MateriaMeal8M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking9M</defName>
+    <products>
+			<MateriaMeal9M>1</MateriaMeal9M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking10M</defName>
+    <products>
+			<MateriaMeal10M>1</MateriaMeal10M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking11M</defName>
+    <products>
+			<MateriaMeal11M>1</MateriaMeal11M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking12M</defName>
+    <products>
+			<MateriaMeal12M>1</MateriaMeal12M>
+		</products>
+  </RecipeDef>
+
+</RecipeDefs>

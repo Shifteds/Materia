@@ -47,12 +47,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="LevelCurve.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Models\IngredientSpec.cs" />
     <Compile Include="Models\MateriaDatabase.cs" />
     <Compile Include="MateriaMod.cs" />
-    <Compile Include="Models\DynamicRecipe.cs" />
+    <Compile Include="Models\RecipeSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipesGen.cs" />
+    <Compile Include="UI\MateriaTabWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using RimWorld;
 using Verse;
 
@@ -8,13 +9,26 @@ namespace Materia.Models
 {
     public class RecipeSpec : IExposable
     {
+        [Unsaved]
+        private string _ingredientTextCache, _statsTextCache;
+
         private static ThingFilter _meatFilter;
         public string Name, Label, Description, ProductLabel, ProductDescription;
         public bool IsOption, WasOption, IsUnlocked, IsUnlocking;
         public float Nutrition, Mass, MarketValue, WorkToMake, Progress, MaxProgress;
-        public int Yield, DaysToRot, Skill;
+        public int Yield, DaysToRot, Skill, Tier;
 
         public List<IngredientSpec> Ingredients = new List<IngredientSpec>();
+
+        public string GetIngredientText()
+        {
+            return _ingredientTextCache ?? (_ingredientTextCache = CreateIngredientText());
+        }
+
+        public string GetStatsText()
+        {
+            return _statsTextCache ?? (_statsTextCache = CreateStatsText());
+        }
 
         public void ExposeData()
         {
@@ -37,6 +51,7 @@ namespace Materia.Models
             Scribe_Values.LookValue(ref DaysToRot, nameof(DaysToRot));
             Scribe_Values.LookValue(ref Progress, nameof(Progress));
             Scribe_Values.LookValue(ref MaxProgress, nameof(MaxProgress));
+            Scribe_Values.LookValue(ref Tier, nameof(Tier));
 
             Scribe_Collections.LookList(ref Ingredients, nameof(Ingredients), LookMode.Deep);
         }
@@ -58,7 +73,7 @@ namespace Materia.Models
             {
                 var ingCount = new IngredientCount();
 
-                if (ing.AnyMeat) { ingCount.filter = MeatFilter; }
+                if (ing.Name == "Meat") { ingCount.filter = MeatFilter; }
                 else
                 {
                     var thing = DefDatabase<ThingDef>.GetNamed(ing.Name);
@@ -89,7 +104,7 @@ namespace Materia.Models
             GenLabel.ThingLabel(product, null);
 
             // Add it to production buildings.
-            if (!IsUnlocked) { return; }
+            //if (!IsUnlocked) { return; }
 
             recipe.recipeUsers = users.ToList();
             users.ForEach(u => u.AllRecipes.Add(recipe));
@@ -102,6 +117,30 @@ namespace Materia.Models
                 return _meatFilter ?? (_meatFilter = DefDatabase<RecipeDef>.GetNamed("MateriaMeatRecipe").ingredients
                            .First().filter);
             }
+        }
+
+        private string CreateIngredientText()
+        {
+            var text = new StringBuilder();
+            foreach (var ing in Ingredients) { text.Append($"{ing.Label}: {ing.Amount}\n\n"); }
+            return text.ToString();
+        }
+
+        private string CreateStatsText()
+        {
+            int ingredientCount = Ingredients.Sum(i => i.Amount);
+            float effectiveNutrition = Yield * Nutrition / ingredientCount;
+
+            var text = new StringBuilder();
+            text.Append($"{nameof(Yield)}:  {Yield}\n\n");
+            text.Append($"{nameof(Nutrition)}:  {Nutrition:0.00}\n\n");
+            text.Append($"Nutrition Per Ingredient:  {effectiveNutrition:0.00}\n\n");
+            text.Append($"Days To Rot:  {DaysToRot}\n\n");
+            text.Append($"{nameof(Mass)}:  {Mass:0.00}\n\n");
+            text.Append($"Market Value:  {MarketValue:0.00}\n\n");
+            if (Skill > 0) { text.Append($"Cooking Skill:  {Skill}\n\n"); }
+
+            return text.ToString();
         }
     }
 }

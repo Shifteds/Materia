@@ -42,13 +42,15 @@ namespace Materia
                 .Where(r => r.defName.StartsWith("MateriaRecipe"))
                 .ToDictionary(r => r.defName, r => r);
 
+            Logger.Message($"Loaded {recipes.Count} recipe definitions.");
+
             _database = UtilityWorldObjectManager.GetUtilityWorldObject<MateriaDatabase>();
 
             if (_database.RecipeSpecs.Count == 0)
             {
                 Logger.Message($"Generating {recipes.Count} new recipe specifications.");
                 var recipeGen = new RecipesGen(_random);
-                recipeGen.Populate(_database, recipes.Values);
+                recipeGen.Populate(_database, recipes.Values.ToQueue());
                 CreateOptions();
             }
 
@@ -111,6 +113,20 @@ namespace Materia
             CreateOptions();
         }
 
+        public RecipeSpec GetCurrent()
+        {
+            return _currentCache;
+        }
+
+        public RecipeSpec GetByLabel(string label)
+        {
+            if (label == null) { return null; }
+
+            RecipeSpec spec = null;
+            _database?.ByLabel.TryGetValue(label, out spec);
+            return spec;
+        }
+
         private void CreateOptions()
         {
             var next = _database.RecipeSpecs
@@ -118,7 +134,7 @@ namespace Materia
                 .OrderBy(s => s.Ingredients.Count)
                 .Take(3);
 
-            int baseProgress = _database.Turn * LevelCurve.ProgressPerTurn[_database.Turn - 1];
+            int baseProgress = _database.Turn * Materia.Settings.ProgressPerTurn[_database.Turn - 1];
 
             foreach (var s in next)
             {

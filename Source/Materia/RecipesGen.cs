@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using Materia.Models;
+using RimWorld;
 using Verse;
+using S = Materia.Settings;
 
 namespace Materia
 {
@@ -14,14 +18,19 @@ namespace Materia
         };
 
         private readonly Random _random;
-        private const double MeatChance = 0.5;
-        private readonly HashSet<ThingDef> _plantIngredients;
-        private readonly HashSet<ThingDef> _meatIngredients;
-        private readonly HashSet<ThingDef> _animalProductIngredients;
+        private readonly List<IngredientOption> _plantsAndAnyMeat;
+        private readonly List<IngredientOption> _meats;
+        private readonly List<IngredientOption> _basicCropsAndAnyMeat;
+        private readonly List<IngredientOption> _animalProducts;
+
+        private readonly HashSet<string> _combinations = new HashSet<string>();
+        private readonly HashSet<string> _ingredients = new HashSet<string>();
 
         public RecipesGen(Random random)
         {
             _random = random;
+
+            var ti = new CultureInfo("en-US", false).TextInfo;
 
             var baseRecipe = DefDatabase<RecipeDef>.GetNamed("MateriaBaseCookingRecipe");
 
@@ -29,140 +38,52 @@ namespace Materia
                 .Where(t => baseRecipe.defaultIngredientFilter.Allows(t))
                 .ToHashSet();
 
-            _plantIngredients = ingredients
+            _plantsAndAnyMeat = ingredients
                 .Where(t => t.thingCategories.Any(d => d.defName == "PlantFoodRaw"))
-                .ToHashSet();
+                .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
+                .ToList();
 
-            _meatIngredients = ingredients
+            _plantsAndAnyMeat.Add(new IngredientOption { Name = "Meat", Label = "Meat" });
+
+            _meats = ingredients
                 .Where(t => t.thingCategories.Any(d => d.defName == "MeatRaw"))
-                .ToHashSet();
+                .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
+                .ToList();
 
-            _animalProductIngredients = ingredients
-                .Where(t => t.thingCategories.Any(d => d.defName == "AnimalProductRaw"))
-                .ToHashSet();
+            _animalProducts = ingredients
+                .Where(t => t.thingCategories.Any(d => d.defName == "AnimalProductRaw") || t.ingestible?.foodType == FoodTypeFlags.AnimalProduct)
+                .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
+                .ToList();
+
+            _basicCropsAndAnyMeat = DefDatabase<ThingDef>.AllDefsListForReading
+                .Where(t => t.plant?.sowTags != null && t.plant.sowTags.Contains("Ground") && t.plant.harvestedThingDef != null)
+                .Select(t => t.plant.harvestedThingDef)
+                .Where(t => ingredients.Contains(t))
+                .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
+                .ToList();
+
+            _basicCropsAndAnyMeat.Add(new IngredientOption { Name = "Meat", Label = "Meat" });
+
+            foreach (var c in _basicCropsAndAnyMeat) { Logger.Log($"Basic Crop: {c.Label}"); }
         }
 
-        public void Populate(MateriaDatabase database, IEnumerable<RecipeDef> recipeDefs)
+        public void Populate(MateriaDatabase database, Queue<RecipeDef> recipeDefs)
         {
             database.RecipeSpecs.Clear();
 
-            const int amountPerTier = 9;
-            int i = 0;
-
-            foreach (var def in recipeDefs)
+            for (int i = 1; i < 2; i++)
             {
-                var spec = new RecipeSpec
-                {
-                    Name = def.defName,
-                    Label = $"Materia Recipe No. {++i}",
-                    Description = $"A materia recipe with the number {i}.",
-                    ProductLabel = $"Meal No. {i}",
-                    ProductDescription = $"A meal with the number {i}.",
-                    IsUnlocked = _random.Next(0, 2) == 0
-                };
+                var options = GetOptions(i).ToList();
+                var recipes = GenerateTier(i, 3, options, recipeDefs);
+                database.RecipeSpecs.AddRange(recipes);
 
-                if (i < amountPerTier) { SetStatsT1(spec); }
-                else if (i < 2 * amountPerTier) { SetStatsT2(spec); }
-                else if (i < 3 * amountPerTier) { SetStatsT3(spec); }
-                else if (i < 4 * amountPerTier) { SetStatsT4(spec); }
-                else { SetStatsT5(spec); }
-
-                database.RecipeSpecs.Add(spec);
+                Logger.Log($"Generated {recipes.Count} T{i} recipes.");
             }
-        }
 
-        private void SetStatsT1(RecipeSpec spec)
-        {
-            spec.DaysToRot = _random.Next(1, 6);
-            spec.MarketValue = _random.Next(5, 30);
-            spec.Mass = NextFloat(0.30, 0.60);
-            spec.Nutrition = NextFloat(0.5, 0.6);
-            spec.Yield = _random.Next(1, 3);
-            spec.WorkToMake = _random.Next(300, 400) * spec.Yield;
-            spec.Skill = _random.Next(0, 4);
+            var flavors = FlavorTextDb.Instance.GetFlavorMap();
 
-            int min = 7 * spec.Yield;
-            int max = 15 * spec.Yield;
-
-            spec.Ingredients.Add(GetBasicCropOrAnyMeat(min, max));
-        }
-
-        private void SetStatsT2(RecipeSpec spec)
-        {
-            spec.DaysToRot = _random.Next(3, 9);
-            spec.MarketValue = _random.Next(20, 50);
-            spec.Mass = NextFloat(0.30, 0.60);
-            spec.Nutrition = NextFloat(0.6, 0.7);
-            spec.Yield = _random.Next(1, 4);
-            spec.WorkToMake = _random.Next(400, 500) * spec.Yield;
-            spec.Skill = _random.Next(4, 8);
-
-            int min = 7 * spec.Yield;
-            int max = 15 * spec.Yield;
-
-            var used = new HashSet<string>();
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-        }
-
-        private void SetStatsT3(RecipeSpec spec)
-        {
-            spec.DaysToRot = _random.Next(6, 12);
-            spec.MarketValue = _random.Next(40, 60);
-            spec.Mass = NextFloat(0.30, 0.60);
-            spec.Nutrition = NextFloat(0.7, 0.8);
-            spec.Yield = _random.Next(2, 5);
-            spec.WorkToMake = _random.Next(500, 600) * spec.Yield;
-            spec.Skill = _random.Next(8, 11);
-
-            int min = 7 * spec.Yield;
-            int max = 15 * spec.Yield;
-
-            var used = new HashSet<string>();
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-        }
-
-        private void SetStatsT4(RecipeSpec spec)
-        {
-            spec.DaysToRot = _random.Next(6, 12);
-            spec.MarketValue = _random.Next(50, 70);
-            spec.Mass = NextFloat(0.30, 0.60);
-            spec.Nutrition = NextFloat(0.8, 0.9);
-            spec.Yield = _random.Next(2, 5);
-            spec.WorkToMake = _random.Next(650, 800) * spec.Yield;
-            spec.Skill = _random.Next(11, 15);
-
-            int min = 7 * spec.Yield;
-            int max = 15 * spec.Yield;
-
-            var used = new HashSet<string>();
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-        }
-
-        private void SetStatsT5(RecipeSpec spec)
-        {
-            spec.DaysToRot = _random.Next(6, 12);
-            spec.MarketValue = _random.Next(60, 80);
-            spec.Mass = NextFloat(0.30, 0.60);
-            spec.Nutrition = 1.0f;
-            spec.Yield = _random.Next(2, 5);
-            spec.WorkToMake = _random.Next(800, 900) * spec.Yield;
-            spec.Skill = _random.Next(15, 19);
-
-            int min = 7 * spec.Yield;
-            int max = 15 * spec.Yield;
-
-            var used = new HashSet<string>();
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
-            spec.Ingredients.Add(GePlantOrAnyMeat(used, min, max));
+            int it = 0;
+            foreach (var recipe in database.RecipeSpecs) { SetFlavor(it++, flavors, recipe); }
         }
 
         private float NextFloat(double minimum, double maximum)
@@ -170,37 +91,127 @@ namespace Materia
             return (float)(_random.NextDouble() * (maximum - minimum) + minimum);
         }
 
-        private IngredientSpec GetBasicCropOrAnyMeat(int amountMin, int amountMax)
+        private List<RecipeSpec> GenerateTier(int tier, int rerollAttempts, List<IngredientOption> options, Queue<RecipeDef> recipeDefs)
         {
-            int amount = _random.Next(amountMin, amountMax);
+            int recipeAmount = S.RecipeAmount[tier];
+            int ingredientCount = S.IngredientCount[tier];
+            int minIngAmount = S.MinIngredientAmounts[tier];
+            int maxIngAmount = S.MaxIngredientAmounts[tier];
 
-            if (_random.NextDouble() < MeatChance) { return new IngredientSpec {AnyMeat = true, Amount = amount}; }
+            var recipes = new List<RecipeSpec>(recipeAmount);
 
-            string ing = BasicCrops
-                .OrderBy(c => Guid.NewGuid())
-                .First();
-
-            return new IngredientSpec {Name = ing, Amount = amount};
-        }
-
-        private IngredientSpec GePlantOrAnyMeat(ICollection<string> used, int amountMin, int amountMax)
-        {
-            int amount = _random.Next(amountMin, amountMax);
-
-            if (!used.Contains("Meat") && _random.NextDouble() < MeatChance)
+            for (int i = 0; i < recipeAmount; i++)
             {
-                used.Add("Meat");
-                return new IngredientSpec {Name = "Meat", AnyMeat = true, Amount = amount};
+                if(recipeDefs.Count == 0) { break; }
+
+                var ingredients = Enumerable.Range(0, rerollAttempts)
+                    .Select(s => Roll(ingredientCount, minIngAmount, maxIngAmount, options))
+                    .Select(s => new {Guid = s.Select(g => g.Name).Aggregate((a, b) => a + b), Ing = s})
+                    .OrderByDescending(c => !_combinations.Contains(c.Guid))
+                    .ThenBy(c => c.Ing.Count(ing => _ingredients.Contains(ing.Name)))
+                    .First();
+
+                _combinations.Add(ingredients.Guid);
+                foreach (var ing in ingredients.Ing) { _ingredients.Add(ing.Name); }
+
+                var recipe = new RecipeSpec();
+                recipe.Name = recipeDefs.Dequeue().defName;
+                recipe.Tier = tier;
+                recipe.Ingredients = ingredients.Ing;
+                recipe.DaysToRot = _random.Next(1, 6);
+                recipe.MarketValue = _random.Next(5, 30);
+                recipe.Mass = NextFloat(0.30, 0.60);
+                recipe.Nutrition = NextFloat(0.4, 0.9);
+                recipe.Yield = _random.Next(1, 3);
+                recipe.WorkToMake = _random.Next(300, 400) * recipe.Yield;
+                recipe.Skill = _random.Next(0, 4);
+
+                recipes.Add(recipe);
             }
 
-            string name = _plantIngredients
-                .Where(t => !used.Contains(t.defName))
-                .OrderBy(c => Guid.NewGuid())
-                .First().defName;
+            return recipes;
+        }
 
-            used.Add(name);
+        // Rolls one ingredient at a time and sorts them. Does not allow repeated ingredients. Returns a list of size Min(count, options.Count).
+        private List<IngredientSpec> Roll(int count, int minAmount, int maxAmount, IEnumerable<IngredientOption> options)
+        {
+            var uniqueOptions = options.ToList();
+            int num = Math.Min(count, uniqueOptions.Count);
+            var ingredients = new List<IngredientSpec>();
 
-            return new IngredientSpec {Name = name, Amount = amount};
+            for (int i = 0; i < num; i++)
+            {
+                var option = uniqueOptions[_random.Next(0, uniqueOptions.Count)];
+
+                var ing = new IngredientSpec
+                {
+                    Name = option.Name,
+                    Label = option.Label,
+                    Amount = _random.Next(minAmount, maxAmount + 1)
+                };
+
+                ingredients.Add(ing);
+                uniqueOptions.Remove(option);
+            }
+
+            return ingredients.OrderBy(i => i.Name).ToList();
+        }
+
+        private static void SetFlavor(int iteration, IDictionary<string, List<FlavorText>> map, RecipeSpec spec)
+        {
+            FlavorText flavor = null;
+            foreach (var ing in spec.Ingredients)
+            {
+                List<FlavorText> list;
+                if (!map.TryGetValue(ing.Name.ToLower(), out list)) { continue; }
+
+                flavor = list.FirstOrDefault();
+                if (flavor == null) { continue; }
+
+                list.Remove(flavor);
+                break;
+            }
+
+            if (flavor != null)
+            {
+                spec.Label = $"Make {flavor.Name}";
+                spec.ProductLabel = flavor.Name;
+                spec.Description = flavor.Description;
+                spec.ProductDescription = flavor.Description;
+
+                return;
+            }
+
+            spec.Label = $"Make {spec.Ingredients.First().Label} Meal No. {iteration}";
+            spec.ProductLabel = $"{spec.Ingredients.First().Label} Meal No. {iteration}";
+
+            var description = new StringBuilder("A meal made of");
+            for (int i = 0; i < spec.Ingredients.Count - 2; i++) { description.Append($" {spec.Ingredients[i].Label},"); }
+
+            description.Append(spec.Ingredients.Count > 1
+                ? $" and {spec.Ingredients[spec.Ingredients.Count - 1].Label}."
+                : $" {spec.Ingredients[spec.Ingredients.Count - 1].Label}.");
+
+            spec.Description = description.ToString();
+            spec.ProductDescription = spec.Description;
+        }
+
+        private IEnumerable<IngredientOption> GetOptions(int tier)
+        {
+            switch (tier)
+            {
+                case 1:
+                    return _basicCropsAndAnyMeat;
+                case 2:
+                    return _plantsAndAnyMeat
+                        .Union(_animalProducts);
+                case 3:
+                    return _plantsAndAnyMeat
+                        .Union(_meats)
+                        .Union(_animalProducts);
+                default:
+                    return new List<IngredientOption>();
+            }
         }
     }
 }

@@ -47,9 +47,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="LevelCurve.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="Models\FlavorText.cs" />
+    <Compile Include="FlavorTextDb.cs" />
+    <Compile Include="Utility\EnumerableExtensions.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Utility\Logger.cs" />
+    <Compile Include="Models\IngredientOption.cs" />
     <Compile Include="Models\IngredientSpec.cs" />
     <Compile Include="Models\MateriaDatabase.cs" />
     <Compile Include="MateriaMod.cs" />

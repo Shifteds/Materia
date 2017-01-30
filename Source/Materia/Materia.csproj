@@ -47,8 +47,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\MateriaProgressComp.cs" />
+    <Compile Include="Components\MateriaProgressProp.cs" />
+    <Compile Include="Components\RecipeGenStatsProperties.cs" />
+    <Compile Include="Components\RecipeGenStatsComp.cs" />
+    <Compile Include="Defs\FlavorTextDef.cs" />
     <Compile Include="Models\FlavorText.cs" />
-    <Compile Include="FlavorTextDb.cs" />
+    <Compile Include="Models\HediffSpec.cs" />
     <Compile Include="Utility\EnumerableExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utility\Logger.cs" />

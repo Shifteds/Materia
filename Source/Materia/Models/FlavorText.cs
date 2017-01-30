@@ -5,6 +5,6 @@ namespace Materia.Models
     public class FlavorText
     {
         public string Name, Description;
-        public HashSet<string> Ingredients = new HashSet<string>();
+        public List<string> Ingredients = new List<string>();
     }
 }

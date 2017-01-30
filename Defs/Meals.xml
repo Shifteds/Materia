@@ -30,6 +30,7 @@
     </thingCategories>
     <alwaysHaulable>true</alwaysHaulable>
     <comps>
+      <li Class="Materia.Components.MateriaProgressProp"/>
       <li Class="CompProperties_Forbiddable" />
       <li Class="CompProperties_Ingredients" />
       <li Class="CompProperties_FoodPoisonable" />
@@ -49,6 +50,8 @@
 			<nutrition>0.50</nutrition>
       <ingestEffect>EatVegetarian</ingestEffect>
       <ingestSound>Meal_Eat</ingestSound>
+      <outcomeDoers>
+      </outcomeDoers>
     </ingestible>
   </ThingDef>
 
@@ -98,6 +101,66 @@
 
   <ThingDef ParentName="MateriaMealBase">
     <defName>MateriaMeal12M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal13M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal14M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal15M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal16M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal17M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal18M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal19M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal20M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal21M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal22M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal23M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal24M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal25M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal26M</defName>
+  </ThingDef>
+
+  <ThingDef ParentName="MateriaMealBase">
+    <defName>MateriaMeal27M</defName>
   </ThingDef>
 
 </ThingDefs>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Hediffs>
+
+  <HediffDef Name="StatBuffBase" Abstract="True">
+    <defaultLabelColor>(0.27,0.92,0.39)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef Name="StatDebuffBase" Abstract="True">
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 1 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>ShootingAccuracy1</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>0.15</Value>
+        <Deviation>0.05</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>0.15</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 2 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>ShootingAccuracy2</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>0.25</Value>
+        <Deviation>0.05</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>0.25</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 3 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>ShootingAccuracy3</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>0.35</Value>
+        <Deviation>0.05</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>0.35</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 1 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>ShootingAccuracy1Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>-0.10</Value>
+        <Deviation>0.02</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>-0.10</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 2 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>ShootingAccuracy2Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>-0.20</Value>
+        <Deviation>0.05</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>0</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Shooting Accuracy 3 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>ShootingAccuracy3Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Shooting Accuracy</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>-0.25</Value>
+        <Deviation>0.05</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracy>0</ShootingAccuracy>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 1 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MentalBreakThreshold1</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>-0.05</Value>
+        <Deviation>0.02</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 2 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MentalBreakThreshold2</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>-0.09</Value>
+        <Deviation>0.02</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 3 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MentalBreakThreshold3</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>-0.14</Value>
+        <Deviation>0.02</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 1 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MentalBreakThreshold1Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>0.03</Value>
+        <Deviation>0.02</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 2 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MentalBreakThreshold2Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>0.06</Value>
+        <Deviation>0.03</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Mental Break Threshold 3 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MentalBreakThreshold3Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Mental Break Threshold</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>0.10</Value>
+        <Deviation>0.05</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>0</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 1 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MoveSpeed1</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>0.10</Value>
+        <Deviation>0.03</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 2 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MoveSpeed2</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>0.15</Value>
+        <Deviation>0.04</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 3 -->
+  <HediffDef ParentName="StatBuffBase">
+    <defName>MoveSpeed3</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>0.20</Value>
+        <Deviation>0.04</Deviation>
+        <IsPositive>True</IsPositive>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 1 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MoveSpeed1Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>1</Tier>
+        <Value>-0.10</Value>
+        <Deviation>0.03</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 2 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MoveSpeed2Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>2</Tier>
+        <Value>-0.15</Value>
+        <Deviation>0.04</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Move Speed 3 Debuff -->
+  <HediffDef ParentName="StatDebuffBase">
+    <defName>MoveSpeed3Debuff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Move Speed</label>
+    <comps>
+      <li Class="Materia.Components.RecipeGenStats">
+        <Tier>3</Tier>
+        <Value>-0.20</Value>
+        <Deviation>0.04</Deviation>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Hediffs>

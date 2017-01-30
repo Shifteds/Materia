@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlavorTextDefs>
+
+  <Materia.Defs.FlavorTextDef>
+    <defName>FlavorSetA</defName>
+    <label>flavor</label>
+    <Entries>
+      <li>
+        <Name>Ketchup, Just Ketchup</Name>
+        <Description>If tomatoes are a fruit, is ketchup a smoothie?</Description>
+        <Ingredients>
+          <li>RawTomatoes</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Ramsey's Beef Wellington</Name>
+        <Description>This beef is so raw, it's starting to eat the salad!</Description>
+        <Ingredients>
+          <li>Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Yorkshire Tea</Name>
+        <Description>Let's have a proper brew.</Description>
+        <Ingredients>
+          <li>Rawtea</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Twinnings</Name>
+        <Description>A rich, full-flavored superior tea blend.</Description>
+        <Ingredients>
+          <li>Rawtea</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Disnof's Special</Name>
+        <Description>It's our biggest export.</Description>
+        <Ingredients>
+          <li>Human_Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>School Cafeteria Mystery Meatballs</Name>
+        <Description>We had to make budget cuts on both public education and prisons. But we found a solution</Description>
+        <Ingredients>
+          <li>Human_Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Jamiro's Things With Rice</Name>
+        <Description>4/10 without rice. 7/10 with rice.</Description>
+        <Ingredients>
+          <li>RawRice</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Paella</Name>
+        <Description>When your paelleras are moldy, take a rope, tie them up and go to the beach, then throw them on to the seawater.</Description>
+        <Ingredients>
+          <li>RawRice</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Sweet And Sour Pork</Name>
+        <Description>The sweet and the sour disguises the fact that this isn't pork.</Description>
+        <Ingredients>
+          <li>Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Orange Chicken</Name>
+        <Description>Pandas love it!</Description>
+        <Ingredients>
+          <li>Chicken_Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Wolfgang's Pork Schnitzel</Name>
+        <Description>One of his specialty dishes.</Description>
+        <Ingredients>
+          <li>Pig_Meat</li>
+          <li>Flour</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Grade A Marbled Steak</Name>
+        <Description>I don't think this is what they meant.</Description>
+        <Ingredients>
+          <li>Meat</li>
+          <li>BlocksMarble</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Jelly</Name>
+        <Description>Simple and delicious. If only we had some toast.</Description>
+        <Ingredients>
+          <li>RawBerries</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Jelly And Toast</Name>
+        <Description>Yes! We got toast this time!</Description>
+        <Ingredients>
+          <li>RawBerries</li>
+          <li>Bread</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Coq Au Vin</Name>
+        <Description>Braised stew with wine.</Description>
+        <Ingredients>
+          <li>Meat</li>
+          <li>Wine</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Sausage</Name>
+        <Description>Nobody wants to know how this was made.</Description>
+        <Ingredients>
+          <li>Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Meatballs</Name>
+        <Description>Balls...made of meat.</Description>
+        <Ingredients>
+          <li>Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Meat Stew</Name>
+        <Description>Simple and nutritious.</Description>
+        <Ingredients>
+          <li>Meat</li>
+        </Ingredients>
+      </li>
+      <li>
+        <Name>Steak And Fries</Name>
+        <Description>Life is good.</Description>
+        <Ingredients>
+          <li>Meat</li>
+          <li>RawPotatoes</li>
+        </Ingredients>
+      </li>
+    </Entries>
+  </Materia.Defs.FlavorTextDef>
+
+</FlavorTextDefs>

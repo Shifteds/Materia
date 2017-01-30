@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Materia.Components;
 using RimWorld;
 using Verse;
 
@@ -15,8 +16,10 @@ namespace Materia.Models
         private static ThingFilter _meatFilter;
         public string Name, Label, Description, ProductLabel, ProductDescription;
         public bool IsOption, WasOption, IsUnlocked, IsUnlocking;
-        public float Nutrition, Mass, MarketValue, WorkToMake, Progress, MaxProgress;
+        public float Nutrition, Mass, MarketValue, WorkToMake, Progress, MaxProgress, ProgressGain;
         public int Yield, DaysToRot, Skill, Tier;
+
+        public List<HediffSpec> Hediffs = new List<HediffSpec>();
 
         public List<IngredientSpec> Ingredients = new List<IngredientSpec>();
 
@@ -54,6 +57,7 @@ namespace Materia.Models
             Scribe_Values.LookValue(ref Tier, nameof(Tier));
 
             Scribe_Collections.LookList(ref Ingredients, nameof(Ingredients), LookMode.Deep);
+            Scribe_Collections.LookList(ref Hediffs, nameof(Hediffs), LookMode.Deep);
         }
 
         public void ApplyTo(RecipeDef recipe, List<ThingDef> users)
@@ -99,12 +103,22 @@ namespace Materia.Models
             product.statBases.First(s => s.stat == StatDefOf.MarketValue).value = MarketValue;
             product.statBases.First(s => s.stat == StatDefOf.WorkToMake).value = WorkToMake;
             product.comps.OfType<CompProperties_Rottable>().First().daysToRotStart = DaysToRot;
+            product.comps.OfType<MateriaProgressProp>().First().Value = ProgressGain;
+
+            // Hediffs
+            product.ingestible.outcomeDoers = new List<IngestionOutcomeDoer>();
+            foreach (var h in Hediffs)
+            {
+                var hediff = DefDatabase<HediffDef>.GetNamed(h.Name);
+                hediff.stages.First().statOffsets.First().value = h.Value;
+                product.ingestible.outcomeDoers.Add(new IngestionOutcomeDoer_GiveHediff{severity = 1.0f, hediffDef = hediff});
+            }
 
             // Label isn't set without setting the cache here for some reason.
             GenLabel.ThingLabel(product, null);
 
             // Add it to production buildings.
-            //if (!IsUnlocked) { return; }
+            if (!IsUnlocked) { return; }
 
             recipe.recipeUsers = users.ToList();
             users.ForEach(u => u.AllRecipes.Add(recipe));

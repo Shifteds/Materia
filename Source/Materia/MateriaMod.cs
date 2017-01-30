@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HugsLib;
 using HugsLib.Utils;
+using Materia.Components;
+using Materia.Defs;
 using Materia.Models;
 using RimWorld;
 using Verse;
@@ -30,6 +32,7 @@ namespace Materia
             if (!ModIsActive) { return; }
 
             RemoveNormalCookingRecipes();
+            ModifySimpleMeal();
         }
 
         public override void WorldLoaded()
@@ -108,6 +111,11 @@ namespace Materia
             _currentCache.Progress = _currentCache.MaxProgress;
             _currentCache.IsUnlocking = false;
             _currentCache.IsUnlocked = true;
+
+            var cookingRecipeUsers = GetCookingRecipeUsers();
+            var recipe = DefDatabase<RecipeDef>.GetNamed(_currentCache.Name);
+            cookingRecipeUsers.ForEach(u => u.AllRecipes.Add(recipe));
+
             _currentCache = null;
 
             CreateOptions();
@@ -141,6 +149,8 @@ namespace Materia
                 s.IsOption = true;
                 s.MaxProgress = baseProgress + _random.Next(-20, 20);
             }
+
+            _database.Turn++;
         }
 
         private void RemoveNormalCookingRecipes()
@@ -149,7 +159,7 @@ namespace Materia
 
             var cookingRecipes = DefDatabase<RecipeDef>.AllDefsListForReading
                 .Where(r => r.products != null)
-                .Where(r => r.workSkill == SkillDefOf.Cooking && !r.defName.StartsWith("MateriaRecipe"))
+                .Where(r => r.workSkill == SkillDefOf.Cooking && !r.defName.StartsWith("MateriaRecipe") && r.defName != "CookMealSimple")
                 .ToHashSet();
 
             var cookingIngredients = cookingRecipes
@@ -182,6 +192,12 @@ namespace Materia
                     recipe.recipeUsers?.Clear();
                 }
             }
+        }
+
+        private void ModifySimpleMeal()
+        {
+            var simpleMeal = DefDatabase<ThingDef>.GetNamed("MealSimple");
+            simpleMeal.comps.Add(new MateriaProgressProp {Value = 5});
         }
 
         private List<ThingDef> GetCookingRecipeUsers()

@@ -124,5 +124,110 @@
 			<MateriaMeal12M>1</MateriaMeal12M>
 		</products>
   </RecipeDef>
+<!---->
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking13M</defName>
+    <products>
+			<MateriaMeal13M>1</MateriaMeal13M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking14M</defName>
+    <products>
+			<MateriaMeal14M>1</MateriaMeal14M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking15M</defName>
+    <products>
+			<MateriaMeal15M>1</MateriaMeal15M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking16M</defName>
+    <products>
+			<MateriaMeal16M>1</MateriaMeal16M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking17M</defName>
+    <products>
+			<MateriaMeal17M>1</MateriaMeal17M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking18M</defName>
+    <products>
+			<MateriaMeal18M>1</MateriaMeal18M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking19M</defName>
+    <products>
+			<MateriaMeal19M>1</MateriaMeal19M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking20M</defName>
+    <products>
+			<MateriaMeal20M>1</MateriaMeal20M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking21M</defName>
+    <products>
+			<MateriaMeal21M>1</MateriaMeal21M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking22M</defName>
+    <products>
+			<MateriaMeal22M>1</MateriaMeal22M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking23M</defName>
+    <products>
+			<MateriaMeal23M>1</MateriaMeal23M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking24M</defName>
+    <products>
+			<MateriaMeal24M>1</MateriaMeal24M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking25M</defName>
+    <products>
+			<MateriaMeal25M>1</MateriaMeal25M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking26M</defName>
+    <products>
+			<MateriaMeal26M>1</MateriaMeal26M>
+		</products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="MateriaBaseCookingRecipe">
+    <defName>MateriaRecipeCooking27M</defName>
+    <products>
+			<MateriaMeal27M>1</MateriaMeal27M>
+		</products>
+  </RecipeDef>
 
 </RecipeDefs>

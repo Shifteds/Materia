@@ -2,6 +2,29 @@
 {
     internal static class Settings
     {
+        public static int TierAmount = 3;
+        public static int RecipeAmount = 27;
+
+        public static int[] BuffsPerTier =
+        {
+            1, 2, 3
+        };
+
+        public static int[] DebuffsPerTier =
+        {
+            1, 1, 1
+        };
+
+        public static float[] BuffPotencyPerTier =
+        {
+            0.15f, 0.25f, 0.35f
+        };
+
+        public static float[] DebuffPotencyPerTier =
+        {
+            -0.10f, -0.15f, -0.20f
+        };
+
         public static int[] ProgressPerTurn =
         {
             50,
@@ -38,12 +61,6 @@
         public static int[] IngredientCount =
         {
             2, 4, 5
-        };
-
-        // Number of recipes per tier.
-        public static int[] RecipeAmount =
-        {
-            9, 9, 9
         };
 
         public static int[] DaysToRotMin =

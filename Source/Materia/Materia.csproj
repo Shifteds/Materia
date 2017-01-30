@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="HugsLib">
-      <HintPath>..\..\Development\RimworldHugsLib\Mods\HugsLib\Assemblies\HugsLib.dll</HintPath>
+      <HintPath>..\..\..\RimworldHugsLib\Mods\HugsLib\Assemblies\HugsLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,7 +43,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,8 +52,9 @@
     <Compile Include="Components\RecipeGenStatsProperties.cs" />
     <Compile Include="Components\RecipeGenStatsComp.cs" />
     <Compile Include="Defs\FlavorTextDef.cs" />
+    <Compile Include="Gen\EffectsGen.cs" />
+    <Compile Include="Models\EffectSpec.cs" />
     <Compile Include="Models\FlavorText.cs" />
-    <Compile Include="Models\HediffSpec.cs" />
     <Compile Include="Utility\EnumerableExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utility\Logger.cs" />

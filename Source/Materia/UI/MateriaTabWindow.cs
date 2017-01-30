@@ -143,11 +143,11 @@ namespace Materia.UI
             Widgets.Label(effectsTitle, "Effects");
 
             GUI.color = Color.white;
-            for (int i = 0; i < spec.Hediffs.Count; i++)
+            for (int i = 0; i < spec.Effects.Count; i++)
             {
-                var h = spec.Hediffs[i];
+                var h = spec.Effects[i];
                 var r = new Rect(10f, 475f + i * 25f, rect.width - 10f, 25f);
-                Widgets.Label(r, h.GetDescription());
+                Widgets.Label(r, h.Description);
             }
 
             GUI.EndGroup();

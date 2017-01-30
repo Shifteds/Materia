@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Materia.Components;
 using Materia.Defs;
 using Materia.Models;
 using RimWorld;
@@ -20,7 +19,6 @@ namespace Materia
         private readonly List<IngredientOption> _basicCropsAndAnyMeat;
         private readonly List<IngredientOption> _animalProducts;
         private readonly List<FlavorText> _flavor;
-        private readonly List<HediffSpec> _hediffOptions;
 
         private readonly HashSet<string> _combinations = new HashSet<string>();
         private readonly HashSet<string> _ingredients = new HashSet<string>();
@@ -66,12 +64,6 @@ namespace Materia
             _flavor = DefDatabase<FlavorTextDef>.AllDefsListForReading
                 .SelectMany(d => d.Entries)
                 .ToList();
-
-            _hediffOptions = DefDatabase<HediffDef>.AllDefsListForReading
-                .Where(h => h.HasComp(typeof(RecipeGenStatsComp)))
-                .Select(GetSpec)
-                .OrderBy(g => Guid.NewGuid())
-                .ToList();
         }
 
         public void Populate(MateriaDatabase database, Queue<RecipeDef> recipeDefs)
@@ -90,11 +82,9 @@ namespace Materia
             var flavors = GetFlavorMap();
 
             int it = 0;
-            var usedHediffs = new HashSet<string>();
             foreach (var recipe in database.RecipeSpecs)
             {
                 SetFlavor(it++, flavors, recipe);
-                SetHediffs(recipe, usedHediffs);
             }
         }
 
@@ -105,7 +95,7 @@ namespace Materia
 
         private List<RecipeSpec> GenerateTier(int tier, int rerollAttempts, List<IngredientOption> options, Queue<RecipeDef> recipeDefs)
         {
-            int recipeAmount = S.RecipeAmount[tier];
+            int recipeAmount = S.RecipeAmount/3;
             int ingredientCount = S.IngredientCount[tier];
             int minIngAmount = S.MinIngredientAmounts[tier];
             int maxIngAmount = S.MaxIngredientAmounts[tier];
@@ -237,55 +227,6 @@ namespace Materia
                 .GroupBy(i => i)
                 .Select(g => g.Key)
                 .ToDictionary(i => i.ToLower(), i => _flavor.Where(a => a.Ingredients.Contains(i)).OrderBy(a => Guid.NewGuid()).ToList());
-        }
-
-        private HediffSpec GetSpec(HediffDef def)
-        {
-            var stats = def.CompProps<RecipeGenStats>();
-            float deviation = stats.Deviation;
-            float value = stats.Value + NextFloat(-deviation, deviation);
-
-            return new HediffSpec
-            {
-                Tier = stats.Tier,
-                Name = def.defName,
-                Label = def.label,
-                Value = value,
-                IsPositive = stats.IsPositive,
-                StatType = def.stages.First().statOffsets.First().stat.defName
-            };
-        }
-
-        private void SetHediffs(RecipeSpec spec, HashSet<string> used)
-        {
-            int tier = spec.Tier;
-            var usedTypes = new HashSet<string>();
-
-            for (int i = 0; i < tier; i++)
-            {
-                var next = _hediffOptions
-                    .Where(h => h.Tier == tier && h.IsPositive)
-                    .OrderByDescending(h => !used.Contains(h.Name))
-                    .ThenByDescending(h => !usedTypes.Contains(h.StatType))
-                    .FirstOrDefault();
-
-                if (next == null) { break; }
-
-                spec.Hediffs.Add(next);
-                used.Add(next.Name);
-                usedTypes.Add(next.StatType);
-            }
-
-            var negative = _hediffOptions
-                .Where(h => h.Tier == tier && !h.IsPositive)
-                .OrderByDescending(h => !used.Contains(h.Name))
-                .ThenByDescending(h => !usedTypes.Contains(h.StatType))
-                .FirstOrDefault();
-
-            if (negative == null) { return; }
-
-            used.Add(negative.Name);
-            spec.Hediffs.Add(negative);
         }
     }
 }

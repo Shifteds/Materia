@@ -4,7 +4,7 @@ using System.Linq;
 using HugsLib;
 using HugsLib.Utils;
 using Materia.Components;
-using Materia.Defs;
+using Materia.Gen;
 using Materia.Models;
 using RimWorld;
 using Verse;
@@ -33,27 +33,28 @@ namespace Materia
 
             RemoveNormalCookingRecipes();
             ModifySimpleMeal();
+
+            EffectsGen.CreateEmptyHediffs();
         }
 
         public override void WorldLoaded()
         {
             if (!ModIsActive) { return; }
-
             _currentCache = null;
 
             var recipes = DefDatabase<RecipeDef>.AllDefsListForReading
                 .Where(r => r.defName.StartsWith("MateriaRecipe"))
                 .ToDictionary(r => r.defName, r => r);
 
-            Logger.Message($"Loaded {recipes.Count} recipe definitions.");
-
             _database = UtilityWorldObjectManager.GetUtilityWorldObject<MateriaDatabase>();
 
             if (_database.RecipeSpecs.Count == 0)
             {
-                Logger.Message($"Generating {recipes.Count} new recipe specifications.");
+                Logger.Message($"Generating {recipes.Count} new recipe.");
+
                 var recipeGen = new RecipesGen(_random);
                 recipeGen.Populate(_database, recipes.Values.ToQueue());
+                EffectsGen.PopulateEffects(_database.RecipeSpecs);
                 CreateOptions();
             }
 
@@ -62,11 +63,7 @@ namespace Materia
 
             foreach (var spec in _database.RecipeSpecs)
             {
-                if (!recipes.TryGetValue(spec.Name, out RecipeDef recipe))
-                {
-                    Logger.Error($"No RecipeDef found for: {spec.Name}");
-                }
-
+                var recipe = recipes[spec.Name];
                 spec.ApplyTo(recipe, cookingRecipeUsers);
             }
 

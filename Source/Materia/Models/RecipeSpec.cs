@@ -19,7 +19,7 @@ namespace Materia.Models
         public float Nutrition, Mass, MarketValue, WorkToMake, Progress, MaxProgress, ProgressGain;
         public int Yield, DaysToRot, Skill, Tier;
 
-        public List<HediffSpec> Hediffs = new List<HediffSpec>();
+        public List<EffectSpec> Effects = new List<EffectSpec>();
 
         public List<IngredientSpec> Ingredients = new List<IngredientSpec>();
 
@@ -57,7 +57,7 @@ namespace Materia.Models
             Scribe_Values.LookValue(ref Tier, nameof(Tier));
 
             Scribe_Collections.LookList(ref Ingredients, nameof(Ingredients), LookMode.Deep);
-            Scribe_Collections.LookList(ref Hediffs, nameof(Hediffs), LookMode.Deep);
+            Scribe_Collections.LookList(ref Effects, nameof(Effects), LookMode.Deep);
         }
 
         public void ApplyTo(RecipeDef recipe, List<ThingDef> users)
@@ -107,10 +107,28 @@ namespace Materia.Models
 
             // Hediffs
             product.ingestible.outcomeDoers = new List<IngestionOutcomeDoer>();
-            foreach (var h in Hediffs)
+            foreach (var effect in Effects)
             {
-                var hediff = DefDatabase<HediffDef>.GetNamed(h.Name);
-                hediff.stages.First().statOffsets.First().value = h.Value;
+                var hediff = DefDatabase<HediffDef>.GetNamed(effect.HediffName);
+                hediff.label = effect.Label;
+                hediff.stages = new List<HediffStage>();
+                var stage = new HediffStage();
+                hediff.stages.Add(stage);
+
+                switch (effect.Type)
+                {
+                    case EffectType.Stat:
+                        stage.statOffsets = new List<StatModifier>();
+                        var stat = DefDatabase<StatDef>.GetNamed(effect.StatName);
+                        stage.statOffsets.Add(new StatModifier { stat = stat, value = effect.Value });
+                        break;
+                    case EffectType.Capacity:
+                        stage.capMods = new List<PawnCapacityModifier>();
+                        var cap = DefDatabase<PawnCapacityDef>.GetNamed(effect.StatName);
+                        stage.capMods.Add(new PawnCapacityModifier { capacity = cap, offset = effect.Value });
+                        break;
+                }
+
                 product.ingestible.outcomeDoers.Add(new IngestionOutcomeDoer_GiveHediff{severity = 1.0f, hediffDef = hediff});
             }
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Materia.Defs.EffectRuleDefs>
+  
+  <Materia.Defs.EffectRuleDef>
+    <defName>EffectExclusionList</defName>
+    <ExcludeStats>
+      <li>EatingSpeed</li>
+      <li>MinimumHandlingSkill</li>
+      <li>FixBrokenDownBuildingFailChance</li>
+      <li>LeatherAmount</li>
+    </ExcludeStats>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>MentalBreakThresholdRule</defName>
+    <Stat>MentalBreakThreshold</Stat>
+    <BuffPotencyPerTier>
+      <li>-0.05</li>
+      <li>-0.10</li>
+      <li>-0.15</li>
+      <li>-0.17</li>
+    </BuffPotencyPerTier>
+    <DebuffPotencyPerTier>
+      <li>0.03</li>
+      <li>0.06</li>
+      <li>0.09</li>
+      <li>0.12</li>
+    </DebuffPotencyPerTier>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>PsychicSensitivityRule</defName>
+    <Stat>PsychicSensitivity</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>ToxicSensitivityRule</defName>
+    <Stat>ToxicSensitivity</Stat>
+    <BuffPotencyPerTier>
+      <li>-0.20</li>
+      <li>-0.35</li>
+      <li>-0.50</li>
+      <li>-0.50</li>
+    </BuffPotencyPerTier>
+    <DebuffPotencyPerTier>
+      <li>0.20</li>
+      <li>0.35</li>
+      <li>0.50</li>
+      <li>0.50</li>
+    </DebuffPotencyPerTier>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>HarvestFailChanceRule</defName>
+    <Stat>HarvestFailChance</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>ConstructFailChanceRule</defName>
+    <Stat>ConstructFailChance</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>FoodPoisonChanceRule</defName>
+    <Stat>FoodPoisonChance</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>AimingDelayFactorRule</defName>
+    <Stat>AimingDelayFactor</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+  <Materia.Defs.EffectRuleDef>
+    <defName>ComfyTemperatureMinRule</defName>
+    <Stat>ComfyTemperatureMin</Stat>
+    <InvertEffect>True</InvertEffect>
+  </Materia.Defs.EffectRuleDef>
+
+</Materia.Defs.EffectRuleDefs>

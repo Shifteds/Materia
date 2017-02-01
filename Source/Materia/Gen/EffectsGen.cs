@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Materia.Defs;
 using Materia.Models;
 using RimWorld;
 using UnityEngine;
@@ -14,9 +15,13 @@ namespace Materia.Gen
     {
         public const string BuffName = "MateriaBuff", DebuffName = "MateriaDebuff";
 
-        private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
-        private static readonly Color BuffColor = new Color(0.27f, 0.92f, 0.39f);
-        private static readonly Color DebuffColor = new Color(0.27f, 0.92f, 0.39f);
+        private static readonly TextInfo _textInfo = new CultureInfo("en-US", false).TextInfo;
+        public static readonly Color BuffColor = new Color(0.27f, 0.92f, 0.39f);
+        public static readonly Color DebuffColor = new Color(0.90f, 0.23f, 0.29f);
+        private static readonly HashSet<string> _includedStatCategories = new HashSet<string>
+        {
+            "PawnSocial", "BasicsPawn", "PawnWork", "PawnCombat"
+        };
 
         public static void CreateEmptyHediffs()
         {
@@ -131,8 +136,16 @@ namespace Materia.Gen
 
         private static IEnumerable<EffectSpec> CreateAllStatModifiers()
         {
+            var rules = DefDatabase<EffectRuleDef>.AllDefsListForReading
+                .ToList();
+
+            var excludedStats = rules.SelectMany(r => r.ExcludeStats).ToHashSet();
+            var excludedCaps = rules.SelectMany(r => r.ExcludeCaps).ToHashSet();
+            var individualRules = rules.Where(r => r.Stat != null).ToDictionary(r => r.Stat, r => r);
+
             var statDefs = DefDatabase<StatDef>.AllDefsListForReading
-                .Where(s => s.category.defName == "BasicsPawn")
+                .Where(s => _includedStatCategories.Contains(s.category.defName))
+                .Where(s => !excludedStats.Contains(s.defName))
                 .ToList();
 
             var specs = new List<EffectSpec>();
@@ -141,8 +154,21 @@ namespace Materia.Gen
             {
                 for (int tier = 0; tier < S.TierAmount; tier++)
                 {
-                    string label = TextInfo.ToTitleCase(statDef.label);
+                    individualRules.TryGetValue(statDef.defName, out EffectRuleDef rule);
+
+                    string label = _textInfo.ToTitleCase(statDef.label);
+
                     float buffValue = S.BuffPotencyPerTier[tier];
+                    if (rule?.InvertEffect ?? false) { buffValue = buffValue * -1; }
+
+                    if (rule != null && rule.BuffPotencyPerTier?.Count > 0)
+                    {
+                        buffValue = rule.BuffPotencyPerTier[tier];
+                    }
+
+                    string description = buffValue > 0
+                        ? $"{label}: +{(int) (buffValue * 100)}%"
+                        : $"{label}: {(int) (buffValue * 100)}%";
 
                     var buff = new EffectSpec
                     {
@@ -152,10 +178,20 @@ namespace Materia.Gen
                         Category = EffectCategory.Buff,
                         Value = buffValue,
                         Label = label,
-                        Description = $"{label}: +{buffValue * 100:00000}%"
+                        Description = description
                     };
 
                     float debuffValue = S.DebuffPotencyPerTier[tier];
+                    if (rule?.InvertEffect ?? false) { debuffValue = debuffValue * -1; }
+
+                    if (rule != null && rule.DebuffPotencyPerTier?.Count > 0)
+                    {
+                        debuffValue = rule.DebuffPotencyPerTier[tier];
+                    }
+
+                    description = debuffValue > 0
+                        ? $"{label}: +{(int)(debuffValue * 100)}%"
+                        : $"{label}: {(int)(debuffValue * 100)}%";
 
                     var debuff = new EffectSpec
                     {
@@ -165,7 +201,7 @@ namespace Materia.Gen
                         Category = EffectCategory.Debuff,
                         Value = debuffValue,
                         Label = label,
-                        Description = $"{label}: -{debuffValue * 100:00000}%"
+                        Description = description
                     };
 
                     specs.Add(buff);

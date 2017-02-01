@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Materia.Models;
 using RimWorld;
 using UnityEngine;
@@ -37,7 +38,6 @@ namespace Materia.UI
                 DrawRightRect(rightRect);
             }
 
-            // fillRect
             GUI.EndGroup();
         }
 
@@ -50,13 +50,14 @@ namespace Materia.UI
             float y = 0;
             int i = 0;
 
+            Text.Anchor = TextAnchor.MiddleCenter;
+
             foreach (var s in options)
             {
                 var row = new Rect(0f, y, rect.width, 50f);
                 Widgets.DrawHighlightIfMouseover(row);
 
-                var labelRec = new Rect(row.x + 10f, row.y, row.width - 10f, row.height);
-                Text.Anchor = TextAnchor.MiddleCenter;
+                var labelRec = new Rect(row.x, row.y, row.width, row.height);
                 Widgets.Label(labelRec, s.ProductLabel);
 
                 if (_selected == s.Label) { Widgets.DrawHighlightSelected(row); }
@@ -72,6 +73,7 @@ namespace Materia.UI
             }
 
             var buttonRect = new Rect(35f, rect.height - 80f, rect.width - 70f, 50f);
+            Text.Anchor = TextAnchor.MiddleCenter;
 
             if (Widgets.ButtonText(buttonRect, "Choose"))
             {
@@ -101,7 +103,15 @@ namespace Materia.UI
             Text.Anchor = TextAnchor.MiddleCenter;
             Text.Font = GameFont.Small;
             Widgets.FillableBar(progressRect, percent);
-            Widgets.Label(progressRect, $"{current.Progress} / {current.MaxProgress}");
+
+            float remainingTicks = current.MaxProgress - current.Progress;
+            var time = TimeSpan.FromHours(remainingTicks / 2500);
+
+            string text = remainingTicks > 60000
+                ? $"{remainingTicks/60000:0} Days"
+                : $"{time.Hours} hours";
+
+            Widgets.Label(progressRect, text);
 
             Text.Anchor = TextAnchor.UpperLeft;
 

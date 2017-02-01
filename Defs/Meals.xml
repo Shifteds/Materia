@@ -12,6 +12,7 @@
       <texPath>Things/Item/Meal/Simple</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
+    <stackLimit>100</stackLimit>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
       <Flammability>1.0</Flammability>
@@ -22,7 +23,6 @@
       <WorkToMake>300</WorkToMake>
 		</statBases>
     <altitudeLayer>Item</altitudeLayer>
-    <stackLimit>10</stackLimit>
     <tickerType>Rare</tickerType>
     <socialPropernessMatters>true</socialPropernessMatters>
     <thingCategories>
@@ -30,7 +30,6 @@
     </thingCategories>
     <alwaysHaulable>true</alwaysHaulable>
     <comps>
-      <li Class="Materia.Components.MateriaProgressProp"/>
       <li Class="CompProperties_Forbiddable" />
       <li Class="CompProperties_Ingredients" />
       <li Class="CompProperties_FoodPoisonable" />

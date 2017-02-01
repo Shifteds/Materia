@@ -49,11 +49,13 @@ namespace Materia
 
             _animalProducts = ingredients
                 .Where(t => t.thingCategories.Any(d => d.defName == "AnimalProductRaw") || t.ingestible?.foodType == FoodTypeFlags.AnimalProduct)
+                .Where(t => !t.defName.Contains("Egg") || t.defName == "EggChickenUnfertilized")
                 .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
                 .ToList();
 
             _basicCropsAndAnyMeat = DefDatabase<ThingDef>.AllDefsListForReading
                 .Where(t => t.plant?.sowTags != null && t.plant.sowTags.Contains("Ground") && t.plant.harvestedThingDef != null)
+                .Where(t => t.plant.sowResearchPrerequisites == null || t.plant.sowResearchPrerequisites.Count == 0)
                 .Select(t => t.plant.harvestedThingDef)
                 .Where(t => ingredients.Contains(t))
                 .Select(t => new IngredientOption { Name = t.defName, Label = ti.ToTitleCase(t.label) })
@@ -70,13 +72,13 @@ namespace Materia
         {
             database.RecipeSpecs.Clear();
 
-            for (int i = 0; i < 3; i++)
+            for (int tier = 0; tier < 4; tier++)
             {
-                var options = GetOptions(i).ToList();
-                var recipes = GenerateTier(i, 3, options, recipeDefs);
+                var options = GetOptions(tier).ToList();
+                var recipes = GenerateTier(tier, 3, options, recipeDefs);
                 database.RecipeSpecs.AddRange(recipes);
 
-                Logger.Log($"Generated {recipes.Count} T{i + 1} recipes.");
+                Logger.Log($"Generated {recipes.Count} T{tier} recipes.");
             }
 
             var flavors = GetFlavorMap();
@@ -95,7 +97,7 @@ namespace Materia
 
         private List<RecipeSpec> GenerateTier(int tier, int rerollAttempts, List<IngredientOption> options, Queue<RecipeDef> recipeDefs)
         {
-            int recipeAmount = S.RecipeAmount/3;
+            int recipeAmount = S.RecipeAmount/S.TierAmount;
             int ingredientCount = S.IngredientCount[tier];
             int minIngAmount = S.MinIngredientAmounts[tier];
             int maxIngAmount = S.MaxIngredientAmounts[tier];
@@ -108,15 +110,15 @@ namespace Materia
 
                 var recipe = new RecipeSpec();
                 recipe.Name = recipeDefs.Dequeue().defName;
-                recipe.Tier = tier + 1;
+                recipe.Tier = tier;
                 recipe.DaysToRot = _random.Next(S.DaysToRotMin[tier], S.DaysToRotMax[tier]);
                 recipe.MarketValue = _random.Next(S.MarketValueMin[tier], S.MarketValueMax[tier]);
-                recipe.Mass = NextFloat(0.05, 0.60);
-                recipe.Nutrition = NextFloat(0.4, 0.9);
+                recipe.Mass = NextFloat(0.05, 0.30);
+                recipe.Nutrition = NextFloat(0.7, 1.0);
                 recipe.Yield = _random.Next(S.YieldMin[tier], S.YieldMax[tier]);
                 recipe.WorkToMake = _random.Next(S.WorkToMakeMin[tier], S.WorkToMakeMax[tier]) * recipe.Yield;
                 recipe.Skill = _random.Next(S.CookingSkillMin[tier], S.CookingSkillMax[tier]);
-                recipe.ProgressGain = (int)(S.ProgressGainPerTier[tier]/recipe.Yield);
+                recipe.ProgressGain = S.ProgressGainPerTier[tier];
 
                 var ingredients = Enumerable.Range(0, rerollAttempts)
                     .Select(s => Roll(ingredientCount, minIngAmount, maxIngAmount, recipe.Yield, options))
@@ -209,9 +211,11 @@ namespace Materia
                 case 0:
                     return _basicCropsAndAnyMeat;
                 case 1:
+                    return _plantsAndAnyMeat;
+                case 2:
                     return _plantsAndAnyMeat
                         .Union(_animalProducts);
-                case 2:
+                case 3:
                     return _plantsAndAnyMeat
                         .Union(_meats)
                         .Union(_animalProducts);

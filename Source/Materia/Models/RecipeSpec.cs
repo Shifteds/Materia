@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Materia.Components;
+using Materia.Gen;
 using RimWorld;
 using Verse;
 
@@ -103,7 +103,6 @@ namespace Materia.Models
             product.statBases.First(s => s.stat == StatDefOf.MarketValue).value = MarketValue;
             product.statBases.First(s => s.stat == StatDefOf.WorkToMake).value = WorkToMake;
             product.comps.OfType<CompProperties_Rottable>().First().daysToRotStart = DaysToRot;
-            product.comps.OfType<MateriaProgressProp>().First().Value = ProgressGain;
 
             // Hediffs
             product.ingestible.outcomeDoers = new List<IngestionOutcomeDoer>();
@@ -111,6 +110,11 @@ namespace Materia.Models
             {
                 var hediff = DefDatabase<HediffDef>.GetNamed(effect.HediffName);
                 hediff.label = effect.Label;
+
+                hediff.defaultLabelColor = effect.Category == EffectCategory.Buff
+                    ? EffectsGen.BuffColor
+                    : EffectsGen.DebuffColor;
+
                 hediff.stages = new List<HediffStage>();
                 var stage = new HediffStage();
                 hediff.stages.Add(stage);
@@ -120,7 +124,7 @@ namespace Materia.Models
                     case EffectType.Stat:
                         stage.statOffsets = new List<StatModifier>();
                         var stat = DefDatabase<StatDef>.GetNamed(effect.StatName);
-                        stage.statOffsets.Add(new StatModifier { stat = stat, value = effect.Value });
+                        stage.statOffsets.Add(new StatModifier { stat = stat, value = effect.Value});
                         break;
                     case EffectType.Capacity:
                         stage.capMods = new List<PawnCapacityModifier>();
@@ -137,8 +141,6 @@ namespace Materia.Models
 
             // Add it to production buildings.
             if (!IsUnlocked) { return; }
-
-            recipe.recipeUsers = users.ToList();
             users.ForEach(u => u.AllRecipes.Add(recipe));
         }
 

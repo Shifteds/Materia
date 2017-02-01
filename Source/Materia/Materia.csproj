@@ -47,10 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\MateriaProgressComp.cs" />
-    <Compile Include="Components\MateriaProgressProp.cs" />
-    <Compile Include="Components\RecipeGenStatsProperties.cs" />
-    <Compile Include="Components\RecipeGenStatsComp.cs" />
+    <Compile Include="Defs\EffectRuleDef.cs" />
     <Compile Include="Defs\FlavorTextDef.cs" />
     <Compile Include="Gen\EffectsGen.cs" />
     <Compile Include="Models\EffectSpec.cs" />
@@ -64,7 +61,7 @@
     <Compile Include="MateriaMod.cs" />
     <Compile Include="Models\RecipeSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecipesGen.cs" />
+    <Compile Include="Gen\RecipesGen.cs" />
     <Compile Include="UI\MateriaTabWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
